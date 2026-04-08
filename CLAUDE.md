@@ -174,5 +174,6 @@ test(nutrition): add unit tests for activity factor
 4. **Toujours** valider les inputs API avec un schéma Zod existant ou nouveau dans `packages/shared`.
 5. **Toujours** utiliser une erreur typée + un code de `constants/errors.ts` pour signaler une erreur métier dans l'API.
 6. **Toujours** committer avec un message Conventional + scope, et pousser après chaque étape logique.
-7. **Ne jamais** introduire de dépendance lourde sans en discuter d'abord.
-8. **Ne jamais** modifier une migration Drizzle déjà appliquée — créer une nouvelle migration à la place.
+7. **Toujours** maintenir `README.md` à jour à chaque étape : nouveau package, nouvelle commande, nouvelle variable d'env, nouvel endpoint, changement de stack. Le README est la photo "à jour" du repo, `CLAUDE.md` est le contrat de collaboration.
+8. **Ne jamais** introduire de dépendance lourde sans en discuter d'abord.
+9. **Ne jamais** modifier une migration Drizzle déjà appliquée — créer une nouvelle migration à la place.
