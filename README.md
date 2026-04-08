@@ -44,6 +44,63 @@ summer-body/
 pnpm install
 ```
 
+## ⚠️ Setup manuel à faire une seule fois (avant le premier test)
+
+Ces étapes ne peuvent pas être automatisées et doivent être faites côté humain avant de pouvoir lancer l'app.
+
+### 1. Créer un projet Google Cloud + OAuth
+
+1. Aller sur [console.cloud.google.com](https://console.cloud.google.com), créer un nouveau projet `summer-body`.
+2. **APIs & Services → OAuth consent screen** : choisir "External", nom de l'app, email support, scopes par défaut (email + profile + openid). Ajouter ton compte Google en *test users*.
+3. **APIs & Services → Credentials → Create credentials → OAuth client ID** :
+   - **Application type**: `iOS`
+   - **Bundle ID**: `app.summerbody.mobile` (doit matcher `apps/mobile/app.json` → `ios.bundleIdentifier`)
+   - Récupérer le **Client ID** généré.
+4. Créer un second OAuth client ID **Web application** (Expo Go en dev passe par cette voie). Récupérer aussi son Client ID.
+
+### 2. Renseigner les secrets locaux
+
+**Backend** — `apps/api/.env` :
+
+```bash
+cp apps/api/.env.example apps/api/.env
+```
+
+| Variable | Valeur |
+|---|---|
+| `DATABASE_URL` | OK par défaut avec le `docker-compose.yml` fourni |
+| `GOOGLE_OAUTH_CLIENT_ID` | Le Client ID **Web** de l'étape 1 (l'API vérifie le `aud` du token contre cet ID) |
+| `JWT_SECRET` | `openssl rand -hex 32` |
+
+**Mobile** — éditer `apps/mobile/app.json` → `extra.googleOAuthClientId` avec le Client ID **iOS** de l'étape 1.
+
+> Si tu utilises Expo Go au lieu d'un build natif, tu peux temporairement coller le Client ID Web dans le mobile aussi.
+
+### 3. Démarrer l'infra
+
+```bash
+docker compose up -d                       # Postgres
+cd apps/api
+pnpm db:generate && pnpm db:migrate        # crée les tables
+pnpm dev                                   # API sur :3000
+```
+
+Dans un autre terminal :
+
+```bash
+cd apps/mobile
+pnpm dev                                   # ouvre Expo
+```
+
+### 4. Tester
+
+- Scanner le QR avec **Expo Go** sur ton iPhone, ou taper `i` dans le terminal Expo pour ouvrir le simulateur iOS.
+- Tap "Continuer avec Google" → choisir ton compte test → l'écran d'accueil doit afficher `Bonjour {ton nom}`.
+
+> 📱 **Sur device physique** : `localhost` ne marche pas. Modifie `apps/mobile/app.json` → `extra.apiBaseUrl` avec l'IP locale de ta machine (ex: `http://192.168.1.42:3000`).
+
+---
+
 ## Lancer en local
 
 ### 1. Postgres
