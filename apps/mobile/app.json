@@ -1,0 +1,20 @@
+{
+  "expo": {
+    "name": "summer-body",
+    "slug": "summer-body",
+    "scheme": "summerbody",
+    "version": "0.0.1",
+    "orientation": "portrait",
+    "userInterfaceStyle": "light",
+    "newArchEnabled": true,
+    "ios": {
+      "supportsTablet": false,
+      "bundleIdentifier": "app.summerbody.mobile"
+    },
+    "plugins": ["expo-font", "expo-secure-store", "expo-web-browser"],
+    "extra": {
+      "apiBaseUrl": "http://localhost:3000",
+      "googleOAuthClientId": ""
+    }
+  }
+}

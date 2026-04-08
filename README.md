@@ -11,7 +11,7 @@ Application mobile iPhone d'accompagnement à la perte de poids pilotée par Cla
 | Couche | Techno |
 |---|---|
 | Monorepo | pnpm workspaces + Turborepo |
-| Mobile | React Native + Expo (TypeScript) — *à venir* |
+| Mobile | React Native + Expo (TypeScript) |
 | Backend | Node.js + TypeScript + Hono |
 | DB | PostgreSQL + Drizzle ORM |
 | Auth | Google OAuth (ID token) + JWT (jose) |
@@ -25,7 +25,8 @@ Application mobile iPhone d'accompagnement à la perte de poids pilotée par Cla
 ```
 summer-body/
 ├── apps/
-│   └── api/                  # Hono backend
+│   ├── api/                  # Hono backend
+│   └── mobile/               # Expo React Native app
 └── packages/
     ├── shared/               # Zod schemas, enums, limits partagés
     └── nutrition/            # Calculs Mifflin-St Jeor, TDEE, target kcal
@@ -80,6 +81,17 @@ pnpm dev            # depuis la racine
 ```
 
 L'API écoute sur `http://localhost:3000`.
+
+### 5. Démarrer l'app mobile
+
+Édite `apps/mobile/app.json` pour renseigner `extra.googleOAuthClientId` (Client ID OAuth Google iOS depuis console.cloud.google.com).
+
+```bash
+cd apps/mobile
+pnpm dev            # ouvre Expo, scanner QR avec Expo Go ou lancer simulateur
+```
+
+> Si l'API ne tourne pas sur `http://localhost:3000`, modifier `extra.apiBaseUrl` dans `apps/mobile/app.json`. Sur device physique, utiliser l'IP locale de la machine au lieu de `localhost`.
 
 ## Commandes
 
@@ -142,6 +154,8 @@ Calculs purs, sans dépendance runtime.
 - [x] `packages/shared` (Zod schemas)
 - [x] `packages/nutrition` (Mifflin-St Jeor + tests)
 - [x] API : auth Google + JWT + `/me`
+- [x] **Feature 1** — Mobile : Expo + design tokens + auth Google end-to-end + écran d'accueil
+- [ ] **Feature 2** — Onboarding profil 4 étapes (back + front)
 - [ ] API : profil utilisateur (`PUT /profile` avec recalcul `maintenanceKcal`)
 - [ ] API : groupes + invitations
 - [ ] API : chat Claude Agent SDK + tool use → génération de planning structuré
