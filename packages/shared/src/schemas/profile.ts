@@ -2,7 +2,6 @@ import { z } from 'zod';
 import {
   ACTIVITY_LEVEL_VALUES,
   COMMUTE_MODE_VALUES,
-  GOAL_VALUES,
   SEX_VALUES,
   SPORT_INTENSITY_VALUES,
 } from '../constants/enums.js';
@@ -10,12 +9,14 @@ import {
   MAX_AGE_YEARS,
   MAX_COMMUTE_MINUTES_PER_DAY,
   MAX_HEIGHT_CM,
+  MAX_KCAL_DELTA_PERCENT,
   MAX_SPORT_DURATION_MIN,
   MAX_SPORT_FREQ_PER_WEEK,
   MAX_WEIGHT_KG,
   MIN_AGE_YEARS,
   MIN_COMMUTE_MINUTES_PER_DAY,
   MIN_HEIGHT_CM,
+  MIN_KCAL_DELTA_PERCENT,
   MIN_SPORT_DURATION_MIN,
   MIN_SPORT_FREQ_PER_WEEK,
   MIN_WEIGHT_KG,
@@ -27,8 +28,15 @@ export type Sex = z.infer<typeof SexSchema>;
 export const ActivityLevelSchema = z.enum(ACTIVITY_LEVEL_VALUES);
 export type ActivityLevel = z.infer<typeof ActivityLevelSchema>;
 
-export const GoalSchema = z.enum(GOAL_VALUES);
-export type Goal = z.infer<typeof GoalSchema>;
+/**
+ * Signed percentage delta vs maintenance kcal.
+ * Negative = deficit (loss), 0 = maintain, positive = surplus (gain).
+ */
+export const KcalDeltaPercentSchema = z
+  .number()
+  .min(MIN_KCAL_DELTA_PERCENT)
+  .max(MAX_KCAL_DELTA_PERCENT);
+export type KcalDeltaPercent = z.infer<typeof KcalDeltaPercentSchema>;
 
 export const SportIntensitySchema = z.enum(SPORT_INTENSITY_VALUES);
 export type SportIntensity = z.infer<typeof SportIntensitySchema>;
@@ -63,7 +71,7 @@ export const ProfileSchema = z.object({
   activityLevel: ActivityLevelSchema,
   sportDetails: z.array(SportEntrySchema),
   commuteHabits: CommuteHabitsSchema,
-  goal: GoalSchema,
+  kcalDeltaPercent: KcalDeltaPercentSchema,
   maintenanceKcal: z.number().int().nonnegative().optional(),
   targetKcal: z.number().int().nonnegative().optional(),
 });

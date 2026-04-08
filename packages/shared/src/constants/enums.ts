@@ -16,8 +16,6 @@ export const ACTIVITY_LEVEL_VALUES = [
   'very_active',
 ] as const;
 
-export const GOAL_VALUES = ['maintain', 'lose_slow', 'lose_fast'] as const;
-
 export const SPORT_INTENSITY_VALUES = ['low', 'moderate', 'high'] as const;
 
 export const COMMUTE_MODE_VALUES = ['walk', 'bike', 'public_transit', 'car', 'mixed'] as const;

@@ -1,5 +1,5 @@
-import type { ActivityLevel, Goal, MaintenanceInput } from '@summer-body/shared';
-import { ACTIVITY_FACTORS, GOAL_KCAL_MULTIPLIERS } from './constants.js';
+import type { ActivityLevel, KcalDeltaPercent, MaintenanceInput } from '@summer-body/shared';
+import { ACTIVITY_FACTORS, PERCENT_DIVISOR } from './constants.js';
 import { mifflinStJeorBmr } from './mifflin-st-jeor.js';
 
 /**
@@ -22,8 +22,13 @@ export function activityFactor(level: ActivityLevel): number {
 }
 
 /**
- * Applies the goal-specific deficit multiplier to a maintenance value.
+ * Applies a signed percentage delta to a maintenance value.
+ * - Negative percent  → deficit (weight loss)
+ * - 0                 → maintain
+ * - Positive percent  → surplus (weight gain)
+ *
+ * Example: targetKcal(2000, -10) → 1800
  */
-export function targetKcal(maintenance: number, goal: Goal): number {
-  return Math.round(maintenance * GOAL_KCAL_MULTIPLIERS[goal]);
+export function targetKcal(maintenance: number, kcalDeltaPercent: KcalDeltaPercent): number {
+  return Math.round(maintenance * (1 + kcalDeltaPercent / PERCENT_DIVISOR));
 }

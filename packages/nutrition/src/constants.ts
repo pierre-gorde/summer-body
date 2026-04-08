@@ -1,4 +1,4 @@
-import type { ActivityLevel, Goal } from '@summer-body/shared';
+import type { ActivityLevel } from '@summer-body/shared';
 
 /**
  * Mifflin-St Jeor BMR coefficients.
@@ -24,14 +24,5 @@ export const ACTIVITY_FACTORS: Record<ActivityLevel, number> = {
   very_active: 1.9,
 };
 
-/**
- * Calorie target multipliers per goal.
- * - maintain : no deficit
- * - lose_slow: ~15% deficit (sustainable, ~0.5 kg/week loss)
- * - lose_fast: ~25% deficit (aggressive, requires monitoring)
- */
-export const GOAL_KCAL_MULTIPLIERS: Record<Goal, number> = {
-  maintain: 1.0,
-  lose_slow: 0.85,
-  lose_fast: 0.75,
-};
+/** Conversion divisor for percent → multiplier (e.g. -10% → 0.9). */
+export const PERCENT_DIVISOR = 100;

@@ -3,6 +3,8 @@
 Application mobile iPhone d'accompagnement à la perte de poids pilotée par Claude (Anthropic). Profil personnalisé, groupes multi-personnes, génération de plannings de repas via chat IA.
 
 > Voir [`CLAUDE.md`](./CLAUDE.md) pour le contrat de collaboration et les conventions de code.
+> Voir [`docs/design-system.md`](./docs/design-system.md) pour la direction visuelle.
+> Voir [`docs/user-flows.md`](./docs/user-flows.md) pour les parcours utilisateurs du MVP.
 
 ## Stack
 
@@ -121,9 +123,9 @@ Réponse :
 
 Schémas Zod, enums et bornes partagés API ↔ mobile.
 
-- `ProfileSchema`, `MaintenanceInputSchema`, `SportEntrySchema`, `CommuteHabitsSchema`
-- Enums : `SEX_VALUES`, `ACTIVITY_LEVEL_VALUES`, `GOAL_VALUES`, `SPORT_INTENSITY_VALUES`, `COMMUTE_MODE_VALUES`
-- Bornes : `MIN/MAX_AGE_YEARS`, `MIN/MAX_HEIGHT_CM`, `MIN/MAX_WEIGHT_KG`, …
+- `ProfileSchema`, `MaintenanceInputSchema`, `SportEntrySchema`, `CommuteHabitsSchema`, `KcalDeltaPercentSchema`
+- Enums : `SEX_VALUES`, `ACTIVITY_LEVEL_VALUES`, `SPORT_INTENSITY_VALUES`, `COMMUTE_MODE_VALUES`
+- Bornes : `MIN/MAX_AGE_YEARS`, `MIN/MAX_HEIGHT_CM`, `MIN/MAX_WEIGHT_KG`, `MIN/MAX_KCAL_DELTA_PERCENT`, presets `DEFAULT_KCAL_DELTA_LOSS_PERCENT`, `DEFAULT_KCAL_DELTA_GAIN_PERCENT`
 
 ### `@summer-body/nutrition`
 
@@ -131,8 +133,8 @@ Calculs purs, sans dépendance runtime.
 
 - `mifflinStJeorBmr({ sex, ageYears, heightCm, weightKg })` → BMR (kcal/jour)
 - `maintenanceKcal(input)` → BMR × facteur d'activité (TDEE)
-- `targetKcal(maintenance, goal)` → TDEE × multiplicateur de déficit
-- Tests : 7 ✅
+- `targetKcal(maintenance, kcalDeltaPercent)` → TDEE × (1 + delta/100), delta signé en %
+- Tests : 10 ✅
 
 ## Roadmap MVP
 
