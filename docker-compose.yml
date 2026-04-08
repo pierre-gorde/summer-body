@@ -1,0 +1,16 @@
+services:
+  postgres:
+    image: postgres:16-alpine
+    container_name: summer-body-postgres
+    restart: unless-stopped
+    environment:
+      POSTGRES_USER: summer_body
+      POSTGRES_PASSWORD: summer_body
+      POSTGRES_DB: summer_body
+    ports:
+      - '5432:5432'
+    volumes:
+      - summer_body_pg:/var/lib/postgresql/data
+
+volumes:
+  summer_body_pg:
