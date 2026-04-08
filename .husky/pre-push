@@ -1,0 +1,1 @@
+exec arch -arm64 sh -c 'pnpm typecheck && pnpm test'

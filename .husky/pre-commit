@@ -1,0 +1,4 @@
+# Force arm64 execution: git/husky parent process runs under Rosetta on
+# this machine, so without this Node would inherit x64 and break native
+# binary resolution (e.g. Biome's platform loader on arm64 Macs).
+exec arch -arm64 sh -c 'pnpm exec lint-staged'
